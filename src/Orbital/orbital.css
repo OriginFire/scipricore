@@ -1,0 +1,96 @@
+* {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+.orbital {
+    height: 300px;
+    width: 300px;
+    position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .orbital-one {
+        animation: orbital-logo-forward infinite 60s linear;
+    }
+
+    .orbital-two {
+        animation: orbital-logo-reverse infinite 40s linear;
+    }
+
+    .orbital-three {
+        animation: orbital-logo-forward infinite 30s linear;
+    }
+}
+
+@keyframes orbital-logo-forward {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbital-logo-reverse {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+.orbital-element {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    min-height: 300px;
+    min-width: 300px;
+}
+
+.orbital-one {
+    max-height: 100px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.orbital-two {
+    max-height: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.orbital-three {
+    max-height: 300px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.sol {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-height: 30px;
+}

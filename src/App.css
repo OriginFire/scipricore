@@ -1,5 +1,15 @@
+* {
+  user-select: none;
+}
+
 .App {
   text-align: center;
+}
+
+.gameheader {
+  font-family: "Ailerons", sans-serif;
+  letter-spacing: 4px;
+  color: #930000;
 }
 
 .App-logo {
@@ -14,7 +24,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #182121;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,6 +36,43 @@
 
 .App-link {
   color: #61dafb;
+  cursor: pointer;
+}
+
+code {
+  color: #667171;
+}
+
+.mainbox {
+  min-height: 400px;
+}
+
+.main-enter {
+  opacity: 0.01;
+}
+
+.intro {
+  font-family: "Space Fray", sans-serif;
+  line-height: 28px;
+  text-align: left;
+  width: 70vw;
+  padding: 0 3%;
+  color: #716666;
+  font-size: 22px;
+}
+
+.main-enter.main-enter-active {
+  opacity: 1;
+  transition: opacity 1500ms ease-in;
+}
+
+.main-exit {
+  opacity: 1;
+}
+
+.main-exit.main-exit-active {
+  opacity: 0.01;
+  transition: opacity 1500ms ease-in;
 }
 
 @keyframes App-logo-spin {
