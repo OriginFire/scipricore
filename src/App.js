@@ -119,6 +119,46 @@ function App() {
         }
     };
 
+    const buttonRender = () => {
+        if (showing === "logo") {
+            return(
+                <CSSTransition
+                    key={`begin`}
+                    classNames="main"
+                    timeout={1500}
+                >
+                    <p
+                        className="App-link"
+                        onClick={() => {
+                            setIsPlaying(Sound.status.PLAYING);
+                            setShowing("loading");
+                        }}
+                    >
+                        <ArrowForwardIos fontSize={"small"} /> <code>Begin</code>
+                    </p>
+            </CSSTransition>
+            )}
+        if (showing === "intro" && (intro === 1 || intro === 2)) {
+            return (
+                <CSSTransition
+                    key={`${intro} next`}
+                    classNames="main"
+                    timeout={1500}
+                >
+                    <p
+                        className="App-link"
+                        onClick={() => {
+                            setIntro("")
+                        }}
+                    >
+                        <ArrowForwardIos fontSize={"small"}/> <code>Next</code>
+                    </p>
+                </CSSTransition>
+                )
+            }
+        }
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -133,30 +173,13 @@ function App() {
               autoLoad={true}
           />
           <div className="mainbox">
-              <TransitionGroup
-              >
+              <TransitionGroup>
                   {mainContent()}
               </TransitionGroup>
           </div>
-          {(showing === "logo") ?
-          <p
-              className="App-link"
-              onClick={() => {
-                  setIsPlaying(Sound.status.PLAYING);
-                  setShowing("loading");
-              }}
-          >
-              <ArrowForwardIos fontSize={"small"} /> <code>Begin</code>
-          </p> :
-              <p
-                  className="App-link"
-                  onClick={() => {
-                      setIntro("");
-                  }}
-              >
-                  {(intro < 3) ? <div><ArrowForwardIos fontSize={"small"}/> <code>Next</code></div> : ""}
-              </p>
-          }
+          <TransitionGroup>
+              {buttonRender()}
+          </TransitionGroup>
           {/*<p>*/}
           {/*    <code>Use keyboard (<KeyboardArrowRight/> <KeyboardArrowLeft/> <KeyboardArrowDown/>*/}
           {/*        <KeyboardArrowUp/> and <KeyboardReturn/>) to navigate</code>*/}
