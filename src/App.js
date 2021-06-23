@@ -37,7 +37,7 @@ function App() {
             <p>In the 21st century, the governments of Earth had scrambled to
                 maintain control of humankind's rush to settle the solar system.</p>
             <p>They failed.</p>
-            <p>A tapestry of colonial settlements stretches from Earth's moon to Neptune. All of them are heavily dependent on the 'majors' -- commercial
+            <p>A tapestry of colonial settlements stretches from Earth's moon to the moons of Neptune. All of them are heavily dependent on the 'majors' -- commercial
                 empires without precedent in human history. In the brutal struggle for survival,
                 humanity's old antagonisms followed many of the settlers to their new homes. Tensions
                 throughout the solar system threaten to throw the interplanetary order into chaos...</p>
