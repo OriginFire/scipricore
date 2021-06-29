@@ -3,18 +3,15 @@ import {CSSTransition, SwitchTransition} from "react-transition-group";
 import "./introduction.css";
 import {ArrowForwardIos} from "@material-ui/icons";
 
-export default function Introduction() {
-    const progressEl = useRef(null);
+export default function Introduction(props) {
     const [intro, setIntro] = useState(1);
 
     useEffect(() => {
-        if (progressEl.current !== null) {
-            progressEl.current.focus();
-        }
+        props.focus.current.focus();
     }, []);
 
     let intros = {
-        1: <div className="intro">
+        1: <div className="text">
             <p>The year is 2163. Humanity has taken to the stars.</p>
             <p>In the 21st century, the governments of Earth had scrambled to
                 maintain control of humankind's rush to settle the solar system.</p>
@@ -25,7 +22,7 @@ export default function Introduction() {
                 throughout the solar system threaten to throw the interplanetary order into chaos...</p>
         </div>,
 
-        2: <div className="intro">
+        2: <div className="text">
             <p>Meanwhile, recent advances in starship drive engines are opening up more distant
                 reaches of the galaxy. Only one major, Scipricore, holds the key technology and
                 has aggressively settled new frontiers for a decade now. The other majors frantically
@@ -38,7 +35,7 @@ export default function Introduction() {
         </div>,
 
         3:
-            <div className="intro">
+            <div className="text">
                 <p style={{"text-align": "center"}}>Uncover the Scipricore Agenda in 2021</p>
             </div>,
     }
@@ -51,7 +48,7 @@ export default function Introduction() {
     }
 
     return (
-        <div>
+        <div className="intro">
             <SwitchTransition mode="out-in">
                 <CSSTransition
                     key={`intro ${intro}`}
@@ -61,9 +58,9 @@ export default function Introduction() {
                     {intros[intro]}
                 </CSSTransition>
             </SwitchTransition>
-            {(intro === 1 || intro === 2) && <div className="forward" ref={progressEl} onKeyDown={(e) => progressAction(e)} tabIndex="0">
+            {(intro === 1 || intro === 2) && <div className="intro-link" ref={props.focus} onKeyDown={(e) => progressAction(e)} tabIndex="0">
                 <p>
-                    <ArrowForwardIos className="introarrow" fontSizeInherit/>
+                    <ArrowForwardIos className="introarrow" fontSize="inherit"/>
                     <code className="blue">Next</code>
                 </p>
             </div>}

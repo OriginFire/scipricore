@@ -42,7 +42,7 @@
 
 .mainbox {
   grid-area: mainbox;
-  width: 70vw;
+  width: 80vw;
   margin: 0 auto;
 }
 
@@ -55,6 +55,7 @@
 
 code {
   color: #667171;
+  font-family: "White Rabbit", sans-serif;
 }
 
 .blue {
@@ -74,14 +75,14 @@ code {
 
 .arrow {
   position: absolute;
-  left: -2px;
+  left: calc(10px - 1.5vmin);
   top: 35%;
 }
 
 .selectors {
   grid-area: selectors;
   color: #4e5555;
-  font-size: 12px;
+  font-size: calc(6px + 1vmin);
   margin: auto;
   display: flex;
   flex-direction: row;

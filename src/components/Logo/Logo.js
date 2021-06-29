@@ -4,10 +4,8 @@ import {ArrowForwardIos} from "@material-ui/icons";
 import "./logo.css";
 
 export default function Logo(props) {
-    const menuEl = useRef(null);
-
     useEffect(() => {
-        menuEl.current.focus();
+        props.focus.current.focus();
     })
 
     return (
@@ -16,20 +14,20 @@ export default function Logo(props) {
                 <Orbital />
             </div>
             <div className="logo-links"
-                 ref={menuEl}
+                 ref={props.focus}
                  onKeyDown={(e) => props.onKeyDown(e)}
-                 tabIndex={0} autofocus={true}
+                 tabIndex={0}
             >
                 <div className="link">
                     <p>
-                        {props.menu === 0 && <ArrowForwardIos className="arrow" fontSizeInherit/>}
+                        {props.menu === 0 && <ArrowForwardIos className="arrow" fontSize="inherit"/>}
                         <code className={props.menu === 0 ? "blue" : ""}>New Game</code>
                     </p>
                 </div>
 
                 <div className="link">
                     <p>
-                        {props.menu === 1 && <ArrowForwardIos className="arrow" fontSizeInherit/>}
+                        {props.menu === 1 && <ArrowForwardIos className="arrow" fontSize="inherit"/>}
                         <code className={props.menu === 1 ? "blue" : ""}>Resume Game</code>
                     </p>
                 </div>

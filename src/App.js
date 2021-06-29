@@ -31,6 +31,8 @@ function App() {
     const [isPlaying, setIsPlaying] = useState(Sound.status.STOPPED);
     const [showing, setShowing] = useState("logo");
     const [menu, setMenu] = useState(0);
+    const focusEl = useRef();
+
     function handleSongLoading() {
         console.log("Loading")
     }
@@ -54,7 +56,7 @@ function App() {
                         setShowing("intro")
                     }}
                 >
-                    <Logo onKeyDown={(e) => moveSelector(e)} menu={menu}/>
+                    <Logo onKeyDown={(e) => moveSelector(e)} menu={menu} focus={focusEl} />
                 </CSSTransition>
             )
     }
@@ -65,7 +67,7 @@ function App() {
                     timeout={1500}
                     classNames="main"
                 >
-                    <Introduction />
+                    <Introduction focus={focusEl} />
                 </CSSTransition>
                 )
         }
@@ -94,8 +96,12 @@ function App() {
         }
     }
 
+    const targetFocus = () => {
+        focusEl.current.focus();
+    }
+
   return (
-    <div className="App">
+    <div className="App" onClick={targetFocus}>
       <header className="App-header">
           <h1 className="gameheader">THE SCIPRICORE AGENDA</h1>
           <Sound
@@ -108,7 +114,6 @@ function App() {
               autoLoad={true}
           />
 
-          TODO Change to SwitchTransition
           <TransitionGroup className="mainbox">
               {mainContent()}
           </TransitionGroup>
