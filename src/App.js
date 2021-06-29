@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
-import {useState} from "react";
+import {useState, useRef} from "react";
 import './App.css';
-import Orbital from "./Orbital/Orbital";
+import Orbital from "./components/Orbital/Orbital";
+import Introduction from "./components/Introduction/Introduction";
 import Sound from "react-sound";
-import launch from "./audio/launch.mp3";
+import useSound from "use-sound";
+import move from "./audio/interface/menuMove.mp3";
+import error from "./audio/interface/menuError.mp3"
+import launch from "./audio/tracks/launch.mp3";
 import {
     ArrowForwardIos,
     KeyboardArrowDown,
@@ -16,9 +20,12 @@ import {
 
 
 function App() {
+    const appEl = useRef(null);
+    const [playMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
+    const [playError] = useSound(error, {playbackRate: 1.1, volume: 0.3});
     const [isPlaying, setIsPlaying] = useState(Sound.status.STOPPED);
     const [showing, setShowing] = useState("logo");
-    const [intro, setIntro] = useState(1);
+    const [menu, setMenu] = useState(0);
     function handleSongLoading() {
         console.log("Loading")
     }
@@ -31,35 +38,9 @@ function App() {
         console.log("Loading")
     }
 
-    let intros = {
-        1: <div className="intro">
-            <p>The year is 2163. Humanity has taken to the stars.</p>
-            <p>In the 21st century, the governments of Earth had scrambled to
-                maintain control of humankind's rush to settle the solar system.</p>
-            <p>They failed.</p>
-            <p>A tapestry of colonial settlements stretches from Earth's moon to the moons of Neptune. All of them are heavily dependent on the 'majors' -- commercial
-                empires without precedent in human history. In the brutal struggle for survival,
-                humanity's old antagonisms followed many of the settlers to their new homes. Tensions
-                throughout the solar system threaten to throw the interplanetary order into chaos...</p>
-        </div>,
-
-        2: <div className="intro">
-            <p>Meanwhile, recent advances in starship drive engines are opening up more distant
-                reaches of the galaxy. Only one major, Scipricore, holds the key technology and
-                has aggressively settled new frontiers for a decade now. The other majors frantically
-                seek access to warp drive technology, but so far none has managed it.</p>
-            <p>Against these remarkable events, a more insidious shift is taking place. Unknown
-                to many, a breed of super-intelligent humans has begun to emerge amidst the
-                fledgling galactic society.</p>
-            <p>Who they are, how many there are, and what they want are unknown. But the
-                citadels of power are just waking up to their presence...</p>
-        </div>,
-
-        3:
-            <div className="intro">
-                <p style={{"text-align": "center"}}>Uncover the Scipricore Agenda in 2021</p>
-            </div>,
-    }
+    useEffect(() => {
+        appEl.current.focus();
+    }, []);
 
     let mainContent = () => {
         if (showing === "logo") {
@@ -77,87 +58,40 @@ function App() {
             )
     }
         if (showing === "intro") {
-            switch (intro) {
-                case 1: return (
-                    <CSSTransition
-                        key={`intro ${intro}`}
-                        classNames="main"
-                        timeout={1500}
-                        onExited={() => {
-                            setIntro(intro + 1)
-                        }}
-                    >
-                        {intros[intro]}
-                    </CSSTransition>
-                );
-                case 2: return (
-                    <CSSTransition
-                        key={`intro ${intro}`}
-                        classNames="main"
-                        timeout={1500}
-                        onExited={() => {
-                            setIntro(intro + 1)
-                        }}
-                    >
-                        {intros[intro]}
-                    </CSSTransition>
-                );
-                case 3: return (
-                    <CSSTransition
-                        key={`intro ${intro}`}
-                        classNames="main"
-                        timeout={1500}
-                        onExited={() => {
-                            setIntro(intro + 1)
-                        }}
-                    >
-                        {intros[intro]}
-                    </CSSTransition>
-                );
-
-            }
-        }
-    };
-
-    const buttonRender = () => {
-        if (showing === "logo") {
-            return(
-                <CSSTransition
-                    key={`begin`}
-                    classNames="main"
-                    timeout={1500}
-                >
-                    <p
-                        className="App-link"
-                        onClick={() => {
-                            setIsPlaying(Sound.status.PLAYING);
-                            setShowing("loading");
-                        }}
-                    >
-                        <ArrowForwardIos fontSize={"small"} /> <code>Begin</code>
-                    </p>
-            </CSSTransition>
-            )}
-        if (showing === "intro" && (intro === 1 || intro === 2)) {
             return (
                 <CSSTransition
-                    key={`${intro} next`}
-                    classNames="main"
+                    key="intro"
                     timeout={1500}
+                    classNames="main"
                 >
-                    <p
-                        className="App-link"
-                        onClick={() => {
-                            setIntro("")
-                        }}
-                    >
-                        <ArrowForwardIos fontSize={"small"}/> <code>Next</code>
-                    </p>
+                    <Introduction />
                 </CSSTransition>
                 )
-            }
         }
 
+    };
+
+    const moveSelector = (evt) => {
+        console.log(evt.code);
+        if ((evt.code === "ArrowRight" && menu === 1) || (evt.code === "ArrowLeft" && menu === 0) || (evt.code === "ArrowUp") || (evt.code === "ArrowDown")) {
+            playError();
+        } else if (evt.code === "Enter") {
+            if (menu === 0) {
+                console.log("entered")
+                setIsPlaying(Sound.status.PLAYING);
+                setShowing("loading");
+            } else { console.log("Resume Game")}
+        } else {
+            if (evt.code === "ArrowRight") {
+                setMenu(prevState => (prevState + 1));
+                playMove();
+            }
+            if (evt.code === "ArrowLeft") {
+                setMenu(prevState => (prevState - 1));
+                playMove();
+            }
+        }
+    }
 
   return (
     <div className="App">
@@ -172,21 +106,38 @@ function App() {
               loop={true}
               autoLoad={true}
           />
-          <div className="mainbox">
-              <TransitionGroup>
-                  {mainContent()}
-              </TransitionGroup>
-          </div>
-          <TransitionGroup>
-              {buttonRender()}
+          <TransitionGroup className="mainbox">
+              {mainContent()}
           </TransitionGroup>
-          {/*<p>*/}
-          {/*    <code>Use keyboard (<KeyboardArrowRight/> <KeyboardArrowLeft/> <KeyboardArrowDown/>*/}
-          {/*        <KeyboardArrowUp/> and <KeyboardReturn/>) to navigate</code>*/}
-          {/*</p>*/}
+          <TransitionGroup className="menu">
+          {showing === "logo" &&
+            <CSSTransition
+                key={`begin`}
+                classNames="main"
+                timeout={1500}
+            >
+                <div className="links" ref={appEl} onKeyDown={(e) => moveSelector(e)} tabIndex={0} autofocus={true}>
+                    <div className="link">
+                        <p>
+                            {menu === 0 && <ArrowForwardIos className="arrow" fontSizeInherit />}
+                            <code className={menu === 0 ? "blue" : ""}>New Game</code>
+                        </p>
+                    </div>
+
+                    <div className="link">
+                        <p>
+                            {menu === 1 && <ArrowForwardIos className="arrow" fontSizeInherit />}
+                            <code className={menu === 1 ? "blue" : ""}>Resume Game</code>
+                        </p>
+                    </div>
+                </div>
+            </CSSTransition>
+          }
+          </TransitionGroup>
+          <p className="selectors">Use keys <KeyboardArrowRight className="key"/> <KeyboardArrowLeft className="key"/> <KeyboardArrowDown className="key"/> <KeyboardArrowUp className="key"/> and <KeyboardReturn className="key" id="enter"/> to navigate</p>
       </header>
     </div>
-  );
+  )
 }
 
 export default App;

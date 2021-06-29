@@ -7,8 +7,8 @@
 }
 
 .orbital {
-    height: 300px;
-    width: 300px;
+    height: 40vh;
+    width: 40vh;
     position: relative;
 }
 
@@ -51,12 +51,12 @@
     left: 0;
     right: 0;
     margin: auto;
-    min-height: 300px;
-    min-width: 300px;
+    min-height: 40vh;
+    min-width: 40vh;
 }
 
 .orbital-one {
-    max-height: 100px;
+    max-height: 14vh;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -66,7 +66,7 @@
 }
 
 .orbital-two {
-    max-height: 200px;
+    max-height: 28vh;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -76,7 +76,7 @@
 }
 
 .orbital-three {
-    max-height: 300px;
+    max-height: 40vh;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -92,5 +92,5 @@
     left: 0;
     right: 0;
     margin: auto;
-    max-height: 30px;
+    max-height: 2vh;
 }

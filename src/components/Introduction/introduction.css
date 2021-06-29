@@ -1,0 +1,44 @@
+.intro {
+    font-family: "Space Fray", sans-serif;
+    line-height: 28px;
+    text-align: left;
+    width: 75vw;
+    color: #807474;
+    font-size: 22px;
+    grid-area: 3 / 2 / 9 / 5;
+}
+
+.forward {
+    color: #61dafb;
+    outline: none;
+}
+
+.forward p {
+    position: relative;
+    width: fit-content;
+    margin: auto;
+}
+
+.introarrow {
+    position: absolute;
+    left: -27px;
+    top: 12%;
+}
+
+.main-enter {
+    opacity: 0.01;
+}
+
+.main-enter.main-enter-active {
+    opacity: 1;
+    transition: opacity 1500ms ease-in;
+}
+
+.main-exit {
+    opacity: 1;
+}
+
+.main-exit.main-exit-active {
+    opacity: 0.01;
+    transition: opacity 1500ms ease-in;
+}

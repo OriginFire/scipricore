@@ -4,61 +4,103 @@
 
 .App {
   text-align: center;
-}
-
-.gameheader {
-  font-family: "Ailerons", sans-serif;
-  letter-spacing: 4px;
-  color: #930000;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  outline: none;
 }
 
 .App-header {
   background-color: #182121;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: 100vh;
+  width: 100vw;
   font-size: calc(10px + 2vmin);
   color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". . . . ."
+    "gameheader gameheader gameheader gameheader gameheader"
+    ". . . . ."
+    "mainbox mainbox mainbox mainbox mainbox"
+    "mainbox mainbox mainbox mainbox mainbox"
+    "mainbox mainbox mainbox mainbox mainbox"
+    "mainbox mainbox mainbox mainbox mainbox"
+    "mainbox mainbox mainbox mainbox mainbox"
+    ". . . . ."
+    "menu menu menu menu menu"
+    ". . . . ."
+    ". selectors selectors selectors .";
 }
 
-.App-link {
+.gameheader {
+  grid-area: gameheader;
+  font-family: "Ailerons", sans-serif;
+  letter-spacing: 4px;
+  margin: 0 auto;
+  color: #930000;
+}
+
+.mainbox {
+  grid-area: mainbox;
+  margin: 0 auto;
+}
+
+.menu {
+  grid-area: menu;
   color: #61dafb;
   cursor: pointer;
+  margin: auto;
 }
 
 code {
   color: #667171;
 }
 
-.mainbox {
-  min-height: 400px;
+.blue {
+  color: #61dafb;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  outline: none;
+}
+
+.link {
+  padding: 0 25px;
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  left: -2px;
+  top: 35%;
+}
+
+.selectors {
+  grid-area: selectors;
+  color: #4e5555;
+  font-size: 12px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.key {
+  border: solid 1px #4e5555;
+  font-size: 6px;
+  border-radius: 3px;
+  margin: 0 4px;
+}
+
+#enter {
+  padding: 0 2px
 }
 
 .main-enter {
   opacity: 0.01;
-}
-
-.intro {
-  font-family: "Space Fray", sans-serif;
-  line-height: 28px;
-  text-align: left;
-  width: 70vw;
-  padding: 0 3%;
-  color: #716666;
-  font-size: 22px;
 }
 
 .main-enter.main-enter-active {
@@ -73,13 +115,4 @@ code {
 .main-exit.main-exit-active {
   opacity: 0.01;
   transition: opacity 1500ms ease-in;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
