@@ -26,8 +26,8 @@
     "mainbox mainbox mainbox mainbox mainbox"
     "mainbox mainbox mainbox mainbox mainbox"
     "mainbox mainbox mainbox mainbox mainbox"
-    ". . . . ."
-    "menu menu menu menu menu"
+    "mainbox mainbox mainbox mainbox mainbox"
+    "mainbox mainbox mainbox mainbox mainbox"
     ". . . . ."
     ". selectors selectors selectors .";
 }
@@ -42,6 +42,7 @@
 
 .mainbox {
   grid-area: mainbox;
+  width: 70vw;
   margin: 0 auto;
 }
 

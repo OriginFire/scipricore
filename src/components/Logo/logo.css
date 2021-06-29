@@ -1,0 +1,22 @@
+.logo {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+}
+
+.orbital-render {
+    grid-area: 1 / 1 / 5 / 6;
+}
+
+.logo-links {
+    outline: none;
+    grid-area: 6 / 1 / 7 / 6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
