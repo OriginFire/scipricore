@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import Orbital from "../Orbital/Orbital";
 import {ArrowForwardIos} from "@material-ui/icons";
 import "./logo.css";
