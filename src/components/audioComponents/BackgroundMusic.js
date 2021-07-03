@@ -20,7 +20,7 @@ export default function BackgroundMusic({fade, settings}) {
         console.log("Loading")
     }
 
-    console.log("background", launch);
+    console.log("background", launch, legacy);
 
     return (
         <>

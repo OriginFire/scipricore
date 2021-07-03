@@ -14,21 +14,21 @@ import {
     KeyboardArrowRight,
     KeyboardReturn
 } from "@material-ui/icons";
-import Sound from "react-sound";
 
 const defaultAudio = {
     launch: {
-        status: Sound.status.STOPPED,
+        status: "STOPPED",
         volume: 100,
+        gameplayMax: 100,
     },
     legacy: {
-        status: Sound.status.STOPPED,
-        volume: 100,
+        status: "STOPPED",
+        volume: 0,
+        gameplayMax: 20
     }
 }
 
 function App() {
-    const Audio = useContext(AudioContext)
     const [showing, setShowing] = useState("logo");
     const focusEl = useRef();
 
@@ -67,15 +67,21 @@ function App() {
     }
 
     const targetFocus = () => {
-        console.log(focusEl.current);
+        console.log(focusEl.current, "click");
         focusEl.current.focus();
     }
 
-    const updateAudio = (field, newAudio) => {
-        console.log(audio, field, newAudio, "Audio!")
-        setAudio({...audio, [field]: newAudio})
+    const updateAudio = (field, newAudio, secondField, secondAudio) => {
+        console.log(audio, field, newAudio, "Audio!");
+        if (secondField === undefined) {
+            setAudio(prevState => ({...prevState, [field]: newAudio}))
+        } else {
+            setAudio(prevState => ({...prevState, [field]: newAudio, [secondField]: secondAudio}))
+        }
     }
+
     const initialAudio = {...defaultAudio, updateAudio: updateAudio};
+
     const [audio, setAudio] = useState(initialAudio);
 
   return (

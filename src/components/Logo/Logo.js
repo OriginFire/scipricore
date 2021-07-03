@@ -22,7 +22,6 @@ export default function Logo(props) {
             playError();
         } else if (evt.code === "Enter") {
             if (menu === 0) {
-                console.log(launch);
                 updateAudio("launch", {
                     ...launch,
                     status: Sound.status.PLAYING

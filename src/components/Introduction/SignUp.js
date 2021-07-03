@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
+import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
+import Sound from "react-sound";
 import "./signup.css";
 import signup from "../../services/firebase";
 import move from "../../audio/interface/menuMove.mp3";
@@ -8,6 +10,7 @@ import * as PropTypes from "prop-types";
 import {ArrowForwardIos} from "@material-ui/icons";
 
 export default function SignUp(props) {
+    const {launch, legacy, updateAudio} = useContext(AudioContext);
     const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.1});
     const [playMenuMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
     const [playMenuError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
@@ -31,7 +34,20 @@ export default function SignUp(props) {
     }
 
     const initiateNewGame = () => {
-
+        let intervalId = setInterval(() => {
+            if (legacy.status === "STOPPED") {
+                legacy.status = "PLAYING";
+                legacy.volume = 0;
+                updateAudio("legacy", {
+                    ...legacy,
+                });
+            } else {
+                updateAudio("legacy", {...legacy, volume: ++legacy.volume})
+                if (legacy.volume === legacy.gameplayMax) {
+                    clearInterval(intervalId);
+                }
+            }
+        }, 40)
     }
 
     const moveFocus = (direction) => {
@@ -50,7 +66,7 @@ export default function SignUp(props) {
             } else {                        //  ...and signup links ARE focused
                 if (menu === 0) {
                     if (direction === "Enter") {
-                        accountCreation();
+                        // accountCreation();
                         initiateNewGame();
                     } else if (direction === "Tab") {
                         playMenuMove();
@@ -175,9 +191,13 @@ export default function SignUp(props) {
             {(focus=== 2) && <button id="caret">&nbsp;</button>}
         </div>
 
-        <div className="signup-links" ref={focus=== 3 ? props.focus : null}>
+        <div
+            className="signup-links"
+            ref={focus=== 3 ? props.focus : null}
+            onKeyDown={encodeInput}
+            tabIndex={3}
+        >
             <div className="link" onClick={() => {
-
                 signup(email, secretPassword);
             }}>
                 <p>

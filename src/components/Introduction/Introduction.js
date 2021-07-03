@@ -4,11 +4,10 @@ import {CSSTransition, SwitchTransition} from "react-transition-group";
 import SignUp from "./SignUp";
 import "./introduction.css";
 import {ArrowForwardIos} from "@material-ui/icons";
-import Sound from "react-sound";
 
 export default function Introduction(props) {
     const [intro, setIntro] = useState(1);
-    const {launch, updateAudio} = useContext(AudioContext);
+    const {launch, legacy, updateAudio} = useContext(AudioContext);
 
     useEffect(() => {
         props.focus.current.focus();
@@ -65,11 +64,10 @@ export default function Introduction(props) {
     const progressAction = (evt) => {
         if (intro === 2) {
             let intervalId = setInterval(() => {
-                console.log(launch);
                 updateAudio("launch", {...launch, volume: --launch.volume})
                 if (launch.volume === 0) {
                     clearInterval(intervalId);
-                    updateAudio("launch", {...launch, status: Sound.status.STOPPED});
+                    updateAudio("launch", {...launch, status: "STOPPED"});
                 }
             }, 150)
         }
