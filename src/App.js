@@ -1,13 +1,11 @@
 import React from "react";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
-import {useState, useRef} from "react";
+import {useState, useRef, useContext} from "react";
+import AudioContext from "./AudioContext";
 import './App.css';
-import IntroTrack from "./components/audioComponents/IntroTrack";
+import BackgroundMusic from "./components/audioComponents/BackgroundMusic";
 import Logo from "./components/Logo/Logo";
 import Introduction from "./components/Introduction/Introduction";
-import useSound from "use-sound";
-import move from "./audio/interface/menuMove.mp3";
-import error from "./audio/interface/menuError.mp3"
 
 import {
     KeyboardArrowDown,
@@ -16,14 +14,22 @@ import {
     KeyboardArrowRight,
     KeyboardReturn
 } from "@material-ui/icons";
+import Sound from "react-sound";
+
+const defaultAudio = {
+    launch: {
+        status: Sound.status.STOPPED,
+        volume: 100,
+    },
+    legacy: {
+        status: Sound.status.STOPPED,
+        volume: 100,
+    }
+}
 
 function App() {
-    const [playMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
-    const [playError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
-    const [introTrack, setIntroTrack] = useState(false);
-    const [volume, setVolume] = useState(100);
+    const Audio = useContext(AudioContext)
     const [showing, setShowing] = useState("logo");
-    const [menu, setMenu] = useState(0);
     const focusEl = useRef();
 
     let mainContent = () => {
@@ -37,7 +43,11 @@ function App() {
                         setShowing("intro")
                     }}
                 >
-                    <Logo onKeyDown={(e) => moveSelector(e)} menu={menu} focus={focusEl} />
+                    <Logo
+                        focus={focusEl}
+                        newGame={() => {
+                            setShowing("loading");
+                        }} />
                 </CSSTransition>
             )
     }
@@ -48,48 +58,37 @@ function App() {
                     timeout={1500}
                     classNames="main"
                 >
-                    <Introduction focus={focusEl} />
+                    <Introduction
+                        focus={focusEl}
+                    />
                 </CSSTransition>
                 )
-        }
-
-    };
-
-    const moveSelector = (evt) => {
-        console.log(evt.code);
-        if ((evt.code === "ArrowRight" && menu === 1) || (evt.code === "ArrowLeft" && menu === 0) || (evt.code === "ArrowUp") || (evt.code === "ArrowDown")) {
-            playError();
-        } else if (evt.code === "Enter") {
-            if (menu === 0) {
-                console.log("entered");
-                setIntroTrack(true);
-                setShowing("loading");
-            } else { console.log("Resume Game")}
-        } else {
-            if (evt.code === "ArrowRight") {
-                setMenu(prevState => (prevState + 1));
-                playMove();
-            }
-            if (evt.code === "ArrowLeft") {
-                setMenu(prevState => (prevState - 1));
-                playMove();
-            }
         }
     }
 
     const targetFocus = () => {
+        console.log(focusEl.current);
         focusEl.current.focus();
     }
+
+    const updateAudio = (field, newAudio) => {
+        console.log(audio, field, newAudio, "Audio!")
+        setAudio({...audio, [field]: newAudio})
+    }
+    const initialAudio = {...defaultAudio, updateAudio: updateAudio};
+    const [audio, setAudio] = useState(initialAudio);
 
   return (
     <div className="App" onClick={targetFocus}>
         <header className="App-header">
             <h1 className="gameheader">THE SCIPRICORE AGENDA</h1>
-            <IntroTrack playStatus={introTrack} volume={volume} />
+            <AudioContext.Provider value={audio}>
+                <BackgroundMusic />
 
-            <TransitionGroup className="mainbox">
-                {mainContent()}
-            </TransitionGroup>
+                <TransitionGroup className="mainbox">
+                    {mainContent()}
+                </TransitionGroup>
+            </AudioContext.Provider>
 
             <p className="selectors">Use keys <KeyboardArrowRight className="key"/> <KeyboardArrowLeft className="key"/>
                 <KeyboardArrowDown className="key"/> <KeyboardArrowUp className="key"/> and <KeyboardReturn

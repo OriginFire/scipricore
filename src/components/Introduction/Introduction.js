@@ -1,88 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
+import AudioContext from "../../AudioContext";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
+import SignUp from "./SignUp";
 import "./introduction.css";
 import {ArrowForwardIos} from "@material-ui/icons";
+import Sound from "react-sound";
 
 export default function Introduction(props) {
     const [intro, setIntro] = useState(1);
-    const [focus, setFocus] = useState(0);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [secretPassword, setSecretPassword] = useState('');
-    const [alias, setAlias] = useState('');
-    const [caretPosition, setCaretPosition] = useState(0);
+    const {launch, updateAudio} = useContext(AudioContext);
 
     useEffect(() => {
         props.focus.current.focus();
     }, [props.focus]);
-
-    const moveFocus = (direction) => {
-        let increment = ["Tab", "Enter", "ArrowDown"];
-        let decrement = ["ArrowUp"];
-        if (increment.includes(direction) && focus !== 2) {
-            setFocus(prevState => (prevState + 1))
-        }
-        if (decrement.includes(direction) && focus !== 0) {
-            setFocus(prevState => (prevState - 1))
-        }
-    }
-
-    const keyEncoding = (evt) => {
-        let value;
-        switch (focus) {
-            case 0:
-                value = email;
-                break;
-            case 1:
-                value = password;
-                break;
-            case 2:
-                value = alias;
-                break;
-        }
-        let newString = value.split("");
-        switch (evt.key) {
-            case "Delete":
-                newString.pop();
-                return newString.join('');
-            case "Backspace":
-                newString.pop();
-                return newString.join('');
-            default:
-                if (focus === 1) {
-                    setSecretPassword(prevState => prevState + evt.key)
-                    return value + '*';
-                } else {
-                    return value + evt.key;
-                }
-        }
-    }
-
-    const encodeInput = (evt) => {
-        console.log(props.focus);
-        let catchKeys = ["Escape", "Shift", "CapsLock", "Control", "Alt", "Meta"];
-        let directionKeys = ["Tab", "Enter", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
-        if (catchKeys.includes(evt.key)) {
-            return;
-        } else if (directionKeys.includes(evt.key)) {
-            if (evt.key === "Tab") {
-                evt.preventDefault()
-            }
-            moveFocus(evt.key);
-        } else {
-            switch (focus) {
-                case 0:
-                    setEmail(keyEncoding(evt));
-                    break;
-                case 1:
-                    setPassword(keyEncoding(evt));
-                    break;
-                case 2:
-                    setAlias(keyEncoding(evt));
-                    break
-            }
-        }
-    }
 
     let intros = {
         1: <div className="text">
@@ -129,24 +59,20 @@ export default function Introduction(props) {
             </p>
         </div>,
 
-        3: <div className="signup">
-            <div className="signup-field"><label htmlFor="email">email</label>
-                <div className={focus === 0 ? "active" : ""} id="email" ref={focus === 0 ? props.focus : null} tabIndex={0} onKeyDown={encodeInput}>{email}</div>
-                {(focus === 0) && <button id="caret">&nbsp;</button>}
-            </div>
-            <div className="signup-field"><label htmlFor="password">password</label>
-                <div className={focus === 0 ? "active" : ""} id="password" ref={focus === 1 ? props.focus : null} tabIndex={1} onKeyDown={(e) => setPassword(keyEncoding(e))}>{password}</div>
-                {(focus === 1) && <button id="caret">&nbsp;</button>}
-            </div>
-            <div className="signup-field"><label htmlFor="alias">alias</label>
-                <div className={focus === 0 ? "active" : ""} id="alias" ref={focus === 2 ? props.focus : null} tabIndex={2} onKeyDown={(e) => setAlias(keyEncoding(e))}>{alias}</div>
-                {(focus === 2) && <button id="caret">&nbsp;</button>}
-            </div>
-        </div>
+        3: <SignUp ref={props.focus} focus={props.focus} />
     }
 
     const progressAction = (evt) => {
-        console.log(evt.code);
+        if (intro === 2) {
+            let intervalId = setInterval(() => {
+                console.log(launch);
+                updateAudio("launch", {...launch, volume: --launch.volume})
+                if (launch.volume === 0) {
+                    clearInterval(intervalId);
+                    updateAudio("launch", {...launch, status: Sound.status.STOPPED});
+                }
+            }, 150)
+        }
         if (evt.code === "Enter") {
             setIntro(prevState => (prevState + 1));
         }
