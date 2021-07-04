@@ -1,12 +1,23 @@
 .signup {
-    grid-area: 2 / 2 / 4 / 5;
+    grid-area: 2 / 1 / 5 / 6;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+}
+
+.signup-form {
+    grid-area: 1 / 1 / 4 / 6;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .signup-field {
-    font-family: Inconsolata;
+    font-family: Inconsolata, serif;
     display: flex;
+    width: 80%;
     flex-direction: row;
     align-items: center;
     padding: 10px 10px;
@@ -14,6 +25,7 @@
 
 .signup-field label {
     width: 30%;
+    margin: 0 40px 0 0;
 }
 
 label {
@@ -38,8 +50,8 @@ label {
     }
 }
 
-.signup-field div:focus + #caret {
-    animation: blink 1s steps(5, start) infinite;
+.signup-field div.active + #caret {
+    animation: blink 780ms steps(5, start) infinite;
 }
 
 .signup-field div.noCaret + #caret {
@@ -49,26 +61,33 @@ label {
 #caret {
     border: 0;
     padding: 0;
+    height: 3vw;
+    width: 1.2vw;
+    max-height: 25px;
+    max-width: 12px;
     outline: none;
-    height: 90%;
     background-color: #61dafb;
     display: inline-block;
     font-family: monospace;
 }
 
-.signup-links {
+.signup-menu {
+    grid-area: 5 / 2 / 6 / 5;
+    font-weight: 400;
+    outline: none;
     display: flex;
     flex-direction: row;
-    outline: none;
+    align-items: center;
+    justify-content: center;
 }
 
-.link {
-    padding: 0 25px;
+.selection {
+    padding: 0 35px;
     position: relative;
 }
 
-.arrow {
+.signup-arrow {
     position: absolute;
-    left: calc(10px - 1.5vmin);
+    left: calc(25px - 1.5vmin);
     top: 35%;
 }

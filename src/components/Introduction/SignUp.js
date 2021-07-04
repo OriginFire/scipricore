@@ -1,17 +1,18 @@
 import React, {useState, useEffect, useContext} from "react";
 import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
-import Sound from "react-sound";
 import "./signup.css";
 import signup from "../../services/firebase";
 import move from "../../audio/interface/menuMove.mp3";
 import error from "../../audio/interface/menuError.mp3";
+import select from "../../audio/interface/menuSelect.mp3";
 import * as PropTypes from "prop-types";
 import {ArrowForwardIos} from "@material-ui/icons";
 
 export default function SignUp(props) {
     const {launch, legacy, updateAudio} = useContext(AudioContext);
-    const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.1});
+    const [playMenuSelect] = useSound(select, {playbackRate: .7, volume: 0.1});
+    const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.05});
     const [playMenuMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
     const [playMenuError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
     const [playKey] = useSound(move, {playbackRate: 3, volume: 0.05});
@@ -34,6 +35,7 @@ export default function SignUp(props) {
     }
 
     const initiateNewGame = () => {
+        props.startGame();
         let intervalId = setInterval(() => {
             if (legacy.status === "STOPPED") {
                 legacy.status = "PLAYING";
@@ -47,7 +49,7 @@ export default function SignUp(props) {
                     clearInterval(intervalId);
                 }
             }
-        }, 40)
+        }, 5)
     }
 
     const moveFocus = (direction) => {
@@ -66,6 +68,7 @@ export default function SignUp(props) {
             } else {                        //  ...and signup links ARE focused
                 if (menu === 0) {
                     if (direction === "Enter") {
+                        playMenuSelect();
                         // accountCreation();
                         initiateNewGame();
                     } else if (direction === "Tab") {
@@ -74,6 +77,9 @@ export default function SignUp(props) {
                     } else {
                         playMenuError();
                     }
+                }
+                if (menu === 1) {
+                    playMenuSelect();
                 }
             }
         }
@@ -130,7 +136,7 @@ export default function SignUp(props) {
         let catchKeys = ["Escape", "Shift", "CapsLock", "Control", "Alt", "Meta"];
         let directionKeys = ["Tab", "Enter", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
         if (catchKeys.includes(evt.key)) {
-            return;
+
         } else if (directionKeys.includes(evt.key)) {
             if (evt.key === "Tab") {
                 evt.preventDefault()
@@ -151,69 +157,76 @@ export default function SignUp(props) {
         }
     }
 
-    return <div className="signup">
-        <div className="signup-field">
-            <label htmlFor="email">email</label>
-            <div className={focus=== 0 ? "active" : ""}
-                 id="email"
-                 ref={focus=== 0 ? props.focus : null}
-                 tabIndex={0}
-                 onKeyDown={encodeInput}
-            >
-                {email}
+    return (
+        <div className="signup">
+        <div className="signup-form">
+            <div className="signup-field">
+                <label htmlFor="email">email</label>
+                <div
+                    className={focus === 0 ? "active" : "noCaret"}
+                    id="email"
+                    ref={focus === 0 ? props.focus : null}
+                    tabIndex={2}
+                    onKeyDown={encodeInput}
+                >
+                    {email}
+                </div>
+                {(focus === 0) && <button id="caret">&nbsp;</button>}
             </div>
-            {(focus=== 0) && <button id="caret">&nbsp;</button>}
-        </div>
-        <div className="signup-field">
-            <label htmlFor="password">password</label>
-            <div
-                className={focus=== 1 ? "active" : ""}
-                id="password"
-                ref={focus=== 1 ? props.focus : null}
-                tabIndex={1}
-                onKeyDown={encodeInput}
-            >
-                {password}
+
+            <div className="signup-field">
+                <label htmlFor="password">password</label>
+                <div
+                    className={focus === 1 ? "active" : "noCaret"}
+                    id="password"
+                    ref={focus=== 1 ? props.focus : null}
+                    tabIndex={2}
+                    onKeyDown={encodeInput}
+                >
+                    {password}
+                </div>
+                {(focus === 1) && <button id="caret">&nbsp;</button>}
             </div>
-            {(focus=== 1) && <button id="caret">&nbsp;</button>}
-        </div>
-        <div className="signup-field">
-            <label htmlFor="alias">gameplay alias</label>
-            <div
-                className={focus=== 2 ? "active" : ""}
-                id="alias"
-                ref={focus=== 2 ? props.focus : null}
-                tabIndex={2}
-                onKeyDown={encodeInput}
-            >
-                {alias}
+
+            <div className="signup-field">
+                <label htmlFor="alias">gameplay alias</label>
+                <div
+                    className={focus === 2 ? "active" : "noCaret"}
+                    id="alias"
+                    ref={focus === 2 ? props.focus : null}
+                    tabIndex={2}
+                    onKeyDown={encodeInput}
+                >
+                    {alias}
+                </div>
+                {(focus === 2) && <button id="caret">&nbsp;</button>}
             </div>
-            {(focus=== 2) && <button id="caret">&nbsp;</button>}
         </div>
 
         <div
-            className="signup-links"
+            className="signup-menu"
             ref={focus=== 3 ? props.focus : null}
             onKeyDown={encodeInput}
             tabIndex={3}
         >
-            <div className="link" onClick={() => {
+            <div className="selection" onClick={() => {
                 signup(email, secretPassword);
             }}>
                 <p>
-                    {menu === 0 && <ArrowForwardIos className="arrow" fontSize="inherit"/>}
-                    <code className={menu === 0 ? "blue" : ""}>Create New Account</code>
+                    {menu === 0 && <ArrowForwardIos className="signup-arrow" fontSize="inherit"/>}
+                    <code className={menu === 0 ? "blue" : ""}>Begin Game</code>
                 </p>
             </div>
 
-            <div className="link">
+            <div className="selection">
                 <p>
-                    {menu === 1 && <ArrowForwardIos className="arrow" fontSize="inherit"/>}
+                    {menu === 1 && <ArrowForwardIos className="signup-arrow" fontSize="inherit"/>}
                     <code className={menu === 1 ? "blue" : ""}>Back</code>
                 </p>
             </div>
         </div>
-    </div>;
+    </div>)
+    ;
 }
 
 SignUp.propTypes = {

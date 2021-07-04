@@ -22,10 +22,8 @@ export default function Logo(props) {
             playError();
         } else if (evt.code === "Enter") {
             if (menu === 0) {
-                updateAudio("launch", {
-                    ...launch,
-                    status: Sound.status.PLAYING
-                })
+                launch.status = "PLAYING";
+                updateAudio("launch", {...launch,})
                 props.newGame();
             } else { console.log("Resume Game")}
         } else {

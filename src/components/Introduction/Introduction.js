@@ -4,10 +4,13 @@ import {CSSTransition, SwitchTransition} from "react-transition-group";
 import SignUp from "./SignUp";
 import "./introduction.css";
 import {ArrowForwardIos} from "@material-ui/icons";
+import useSound from "use-sound";
+import select from "../../audio/interface/menuSelect.mp3";
 
 export default function Introduction(props) {
     const [intro, setIntro] = useState(1);
     const {launch, legacy, updateAudio} = useContext(AudioContext);
+    const [playMenuSelect] = useSound(select, {playbackRate: 0.7, volume: 0.1})
 
     useEffect(() => {
         props.focus.current.focus();
@@ -27,20 +30,17 @@ export default function Introduction(props) {
 
         2: <div className="text">
             <p>Meanwhile, recent advances in starship drive engines are opening up more distant
-                reaches of the galaxy. Only one major, Scipricore, holds the key technology and
-                has aggressively settled new frontiers for a decade now. The other majors frantically
-                seek access to warp drive technology, but so far none has managed it.</p>
+                reaches of the galaxy. But of the six majors, only one - Scipricore - holds the key technology. The other majors' desperate efforts
+                to access warp drive grow increasingly frantic as Scipricore's aggressive colonization program enters its tenth year.</p>
             <p>Against these remarkable events, a more insidious shift is taking place. Unknown
-                to many, a breed of super-intelligent humans has begun to emerge amidst the
+                to most, a breed of highly intelligent humans has begun to emerge amidst the
                 fledgling galactic society.</p>
             <p>Who they are, how many they number, and what they want remain a mystery. But the
                 citadels of power are just waking up to their presence...</p>
         </div>,
 
         3:
-            <div className="signup-text">
-                <p>Uncover the Scipricore Agenda in 2021</p>
-            </div>,
+            <div></div>,
     }
 
     let button = {
@@ -58,7 +58,7 @@ export default function Introduction(props) {
             </p>
         </div>,
 
-        3: <SignUp ref={props.focus} focus={props.focus} />
+        3: <SignUp ref={props.focus} focus={props.focus} startGame={props.initiate} />
     }
 
     const progressAction = (evt) => {
@@ -67,11 +67,13 @@ export default function Introduction(props) {
                 updateAudio("launch", {...launch, volume: --launch.volume})
                 if (launch.volume === 0) {
                     clearInterval(intervalId);
-                    updateAudio("launch", {...launch, status: "STOPPED"});
+                    launch.status = "STOPPED"
+                    updateAudio("launch", {...launch});
                 }
             }, 150)
         }
         if (evt.code === "Enter") {
+            playMenuSelect();
             setIntro(prevState => (prevState + 1));
         }
     }

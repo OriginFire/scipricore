@@ -8,7 +8,7 @@
 }
 
 .App-header {
-  background-color: #182121;
+  background-color: #121818;
   height: 100vh;
   width: 100vw;
   font-size: calc(10px + 2vmin);
@@ -32,20 +32,6 @@
     ". selectors selectors selectors .";
 }
 
-.gameheader {
-  grid-area: gameheader;
-  font-family: "Ailerons", sans-serif;
-  letter-spacing: 4px;
-  margin: 0 auto;
-  color: #930000;
-}
-
-.mainbox {
-  grid-area: mainbox;
-  width: 80vw;
-  margin: 0 auto;
-}
-
 .menu {
   grid-area: menu;
   color: #61dafb;
@@ -56,7 +42,7 @@
 code {
   color: #667171;
   font-family: "Inconsolata", serif;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .blue {
