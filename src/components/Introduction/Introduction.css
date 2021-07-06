@@ -3,7 +3,7 @@
     font-weight: 300;
     text-align: left;
     height: 100%;
-    width: 80vw;
+    width: 100%;
     font-size: calc(3px + 2.3vmin);
     line-height: 3.3vmin;
     color: #a08f8f;
@@ -11,6 +11,12 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     gap: 0px 0px;
+}
+
+@media screen and (min-width: 1200px) {
+    .intro {
+        font-size: 24px;
+    }
 }
 
 .text {

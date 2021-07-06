@@ -75,9 +75,7 @@ export default function Display(props) {
                     timeout={1500}
                     classNames="main"
                 >
-                    <Game
-                        focus={props.focus}
-                    />
+                    <Game focus={props.focus} />
                 </CSSTransition>
             )
         }
@@ -86,7 +84,7 @@ export default function Display(props) {
     return (
         <>
             <div className="headerbox">
-                <h1 className={(showing === "game") ? "menuheader-transition" : "menuheader"} id={(showing === "game") ? "game" : ""}>THE SCIPRICORE AGENDA</h1>
+                <h1 className={(showing === "game") ? "menuheader-transition" : "menuheader"}>THE SCIPRICORE AGENDA</h1>
             </div>
 
             <TransitionGroup className={(showing === "game") ? "gamebox" : "mainbox"}>

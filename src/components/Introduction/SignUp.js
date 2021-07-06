@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
-import "./signup.css";
+import "./Signup.css";
 import signup from "../../services/firebase";
 import move from "../../audio/interface/menuMove.mp3";
 import error from "../../audio/interface/menuError.mp3";
@@ -26,7 +26,6 @@ export default function SignUp(props) {
 
     useEffect(() => {
         props.focus.current.focus();
-        console.log(props.focus.current);
     }, [props.focus]);
 
     const accountCreation = () => {

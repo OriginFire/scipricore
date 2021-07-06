@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import AudioContext from "../../AudioContext";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 import SignUp from "./SignUp";
-import "./introduction.css";
+import "./Introduction.css";
 import {ArrowForwardIos} from "@material-ui/icons";
 import useSound from "use-sound";
 import select from "../../audio/interface/menuSelect.mp3";

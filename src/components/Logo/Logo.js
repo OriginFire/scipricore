@@ -3,7 +3,7 @@ import AudioContext from "../../AudioContext";
 import Sound from "react-sound";
 import Orbital from "../Orbital/Orbital";
 import {ArrowForwardIos} from "@material-ui/icons";
-import "./logo.css";
+import "./Logo.css";
 import useSound from "use-sound";
 import move from "../../audio/interface/menuMove.mp3";
 import error from "../../audio/interface/menuError.mp3";

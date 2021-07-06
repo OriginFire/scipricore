@@ -1,0 +1,47 @@
+.terminal {
+    grid-area: 1 / 1 / 13 / 7;
+    font-family: Inconsolata, serif;
+    text-align: left;
+    font-size: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 0;
+}
+
+.printout {
+    overflow: hidden;
+    position: relative;
+    grid-area: 1 / 1 / 6 / 4;
+}
+
+.printout-text {
+    position: absolute;
+    height: auto;
+    width: 75%;
+    left: 50%;
+    transform: translateX(-55%);
+    bottom: 0;
+    font-weight: 600;
+}
+
+.printout-text p, .printout-text ul {
+    margin: 25px auto;
+}
+
+.success {
+    color: #22e522;
+}
+
+.info {
+    color: deepskyblue;
+}
+
+.newcommand {
+
+}
+
+.command-line {
+    outline: none;
+    grid-area: 6 / 1 / 8 / 4;
+}
