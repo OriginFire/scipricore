@@ -17,6 +17,7 @@ export default function Game(props) {
     const [playTerminal] = useSound(toggle, {playbackRate: 0.85, volume: 0.22});
     const [showing, setShowing] = useState(false);
     const [active, setActive] = useState("terminal");
+    const [connection, setConnection] = useState(false);
 
     useEffect(() => {
         setTimeout(() => setShowing(true), 4000)
@@ -35,13 +36,23 @@ export default function Game(props) {
         }
     }
 
+    const actionResolution = (action) => {
+        if (action === "connect") {
+            setConnection(true);
+        }
+    }
+
     const terminal = (
         <CSSTransition
             key="terminal"
             classNames="main"
             timeout={1500}
         >
-            <Terminal active={active} focus={props.focus} onKeyDown={controller} />
+            <Terminal
+                active={active}
+                focus={props.focus}
+                viewscreenAction={actionResolution}
+                changeFocus={controller} />
         </CSSTransition>);
 
     const viewscreen = (
@@ -50,7 +61,11 @@ export default function Game(props) {
             classNames="main"
             timeout={1500}
         >
-            <Viewscreen active={active} focus={props.focus} onKeyDown={controller} />
+            <Viewscreen
+                active={active}
+                connection={connection}
+                focus={props.focus}
+                changeFocus={controller} />
         </CSSTransition>);
 
     return (

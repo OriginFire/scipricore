@@ -1,26 +1,28 @@
 import * as PropTypes from "prop-types";
 import {useEffect} from "react";
+import "./Viewscreen.css";
 
-export default function Viewscreen(props) {
+export default function Viewscreen({focus, active, connection, onKeyDown}) {
 
     useEffect(() => {
-        props.focus.current.focus();
-    }, [props.focus]);
+        focus.current.focus();
+    }, [focus]);
 
     return <div className="interchange">
         <div
-            className={`viewscreen ${props.active === "viewscreen" && "active"}`}
-            ref={(props.active === "viewscreen") ? props.focus : null}
+            className={`viewscreen ${active === "viewscreen" && "active"}`}
+            ref={(active === "viewscreen") ? focus : null}
             tabIndex={0}
-            onKeyDown={props.onKeyDown}
+            onKeyDown={onKeyDown}
         >
-
+            {connection ? <div>Connected</div> : <div className="noconnect">No interchange connection</div>}
         </div>
     </div>;
 }
 
 Viewscreen.propTypes = {
     active: PropTypes.string,
+    connection: PropTypes.bool,
     onKeyDown: PropTypes.func,
     focus: PropTypes.any
 };

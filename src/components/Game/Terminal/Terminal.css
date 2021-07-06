@@ -2,7 +2,7 @@
     grid-area: 1 / 1 / 13 / 7;
     font-family: Inconsolata, serif;
     text-align: left;
-    font-size: 14px;
+    font-size: 16px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -18,9 +18,9 @@
 .printout-text {
     position: absolute;
     height: auto;
-    width: 75%;
+    width: 85%;
     left: 50%;
-    transform: translateX(-55%);
+    transform: translateX(-45%);
     bottom: 0;
     font-weight: 600;
 }
@@ -38,10 +38,40 @@
 }
 
 .newcommand {
+    color: #667171;
+}
 
+.caret {
+    border: 0;
+    padding: 0;
+    height: 3vw;
+    width: 1.2vw;
+    max-height: 18px;
+    max-width: 8px;
+    outline: none;
+    background-color: #61dafb;
+    display: inline-block;
+    font-family: monospace;
 }
 
 .command-line {
     outline: none;
+    margin: 0 12.5%;
+    width: 75%;
     grid-area: 6 / 1 / 8 / 4;
+    color: #667171;
+}
+
+.option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    margin: 10px 25px;
+}
+
+.command-arrow {
+    position: absolute;
+    left: -2vmin;
+    color: #61dafb;
 }

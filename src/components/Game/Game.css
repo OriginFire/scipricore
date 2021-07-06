@@ -6,31 +6,6 @@
     gap: 0px 0px;
 }
 
-.interchange {
-    grid-area: 1 / 7 / 13 / 14;
-    position: relative;
-}
-
-.viewscreen {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    outline: none;
-    background-color: #0c1515;
-    border-radius: 6px;
-    height: 95%;
-    width: 90%;
-    border: 1px double #18333b;
-    box-shadow: 0 0 15px #24515e;
-    transition: all 200ms linear;
-}
-
-.viewscreen.active {
-    background-color: #0d1818;
-    box-shadow: 0 0 20px #61dafb;
-}
-
 .main-enter {
     opacity: 0.01;
 }
