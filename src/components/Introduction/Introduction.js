@@ -30,8 +30,8 @@ export default function Introduction(props) {
 
         2: <div className="text">
             <p>Meanwhile, recent advances in starship drive engines are opening up more distant
-                reaches of the galaxy. But of the six majors, only one - Scipricore - holds the key technology. The other majors' desperate efforts
-                to access warp drive grow increasingly frantic as Scipricore's aggressive colonization program enters its tenth year.</p>
+                reaches of the galaxy. But of the six majors, only one - Scipricore - holds the key technology. As Scipricore's aggressive colonization program
+                enters its tenth year, the other majors' efforts to access warp technology are growing increasingly desperate.</p>
             <p>Against these remarkable events, a more insidious shift is taking place. Unknown
                 to most, a breed of highly intelligent humans has begun to emerge amidst the
                 fledgling galactic society.</p>
@@ -58,7 +58,7 @@ export default function Introduction(props) {
             </p>
         </div>,
 
-        3: <SignUp ref={props.focus} focus={props.focus} startGame={props.initiate} />
+        3: <SignUp focus={props.focus} startGame={props.initiate} />
     }
 
     const progressAction = (evt) => {
@@ -97,7 +97,6 @@ export default function Introduction(props) {
                     classNames="main"
                     timeout={1500}
                     onEntered={() => {
-                        console.log("entered", props.focus)
                         props.focus.current.focus()
                     }}
                 >

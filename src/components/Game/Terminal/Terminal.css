@@ -54,6 +54,16 @@
     font-family: monospace;
 }
 
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+.newcommand .caret {
+    animation: blink 780ms steps(5, start) infinite;
+}
+
 .command-line {
     outline: none;
     margin: 0 12.5%;

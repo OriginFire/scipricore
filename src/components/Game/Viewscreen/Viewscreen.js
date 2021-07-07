@@ -8,14 +8,14 @@ export default function Viewscreen({focus, active, connection, onKeyDown}) {
         focus.current.focus();
     }, [focus]);
 
-    return <div className="interchange">
+    return <div className="SysLink">
         <div
             className={`viewscreen ${active === "viewscreen" && "active"}`}
             ref={(active === "viewscreen") ? focus : null}
             tabIndex={0}
             onKeyDown={onKeyDown}
         >
-            {connection ? <div>Connected</div> : <div className="noconnect">No interchange connection</div>}
+            {connection ? <div>Connected</div> : <div className="noconnect">No SysLink connection</div>}
         </div>
     </div>;
 }

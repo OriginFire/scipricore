@@ -9,11 +9,10 @@ import Viewscreen from "./Viewscreen/Viewscreen";
 import * as PropTypes from "prop-types";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
-
 export default function Game(props) {
     const [playMenuSelect] = useSound(select, {playbackRate: 0.7, volume: 0.1})
     const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.05});
-    const [playInterchange] = useSound(toggle, {playbackRate: 1.1, volume: 0.25});
+    const [playSysLink] = useSound(toggle, {playbackRate: 1.1, volume: 0.25});
     const [playTerminal] = useSound(toggle, {playbackRate: 0.85, volume: 0.22});
     const [showing, setShowing] = useState(false);
     const [active, setActive] = useState("terminal");
@@ -28,7 +27,7 @@ export default function Game(props) {
         if (evt.code === "Space") {
             if (active === "terminal") {
                 setActive("viewscreen")
-                playInterchange();
+                playSysLink();
         } else {
                 setActive("terminal");
                 playTerminal();
