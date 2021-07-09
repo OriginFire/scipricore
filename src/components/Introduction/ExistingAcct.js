@@ -3,14 +3,14 @@ import axios from "axios";
 import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
 import "./Signup.css";
-import {signup} from "../../services/firebase";
+import {signin} from "../../services/firebase";
 import move from "../../audio/interface/menuMove.mp3";
 import error from "../../audio/interface/menuError.mp3";
 import select from "../../audio/interface/menuSelect.mp3";
 import * as PropTypes from "prop-types";
 import {ArrowForwardIos} from "@material-ui/icons";
 
-export default function SignUp(props) {
+export default function ExistingAcct(props) {
     const {launch, legacy, updateAudio} = useContext(AudioContext);
     const [playMenuSelect] = useSound(select, {playbackRate: .7, volume: 0.1});
     const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.05});
@@ -29,24 +29,24 @@ export default function SignUp(props) {
         props.focus.current.focus();
     }, [props.focus]);
 
-    const accountCreation = async () => {
+    const characterCreation = async () => {
         try {
-            const newUser = await signup(email, secretPassword);
+            console.log(email, secretPassword);
+            const user = await signin(email, secretPassword);
             let axiosConfig = {
                 headers: {
                     'Content-Type': 'application/json;char=UTF-8',
                     "Access-Control-Allow-Origin": "*",
                 }
             };
-            console.log(newUser);
-            const auth = { authId: newUser.user.uid, characters: [{alias}] };
-            axios.post('https://scipricore-backend.herokuapp.com/user', auth, axiosConfig)
+            const newChar = { character: {alias} };
+            axios.put(`https://scipricore-backend.herokuapp.com/user/${user.user.uid}`, newChar, axiosConfig)
                 .then(res => console.log(res))
                 .catch(err => console.log(err));
             initiateNewGame();
         }
-        catch (error) {
-            console.log(error);
+        catch (e) {
+            console.log(e);
         }
     }
 
@@ -85,7 +85,7 @@ export default function SignUp(props) {
                 if (menu === 0) {
                     if (direction === "Enter") {
                         playMenuSelect();
-                        accountCreation();
+                        characterCreation();
                     } else if (direction === "Tab") {
                         playMenuMove();
                         setMenu(prevState => prevState + 1);
@@ -112,12 +112,12 @@ export default function SignUp(props) {
         }
         if (lateral.includes(direction) && focus === 3) {   // If ArrowLeft or ArrowRight hit
             if (direction === "ArrowRight") {
-                 if (menu === 1) {
+                if (menu === 1) {
                     playMenuError();
                 } else {
-                     playMenuMove();
-                     setMenu(prevState => prevState + 1);
-                 }
+                    playMenuMove();
+                    setMenu(prevState => prevState + 1);
+                }
             }
             if (direction === "ArrowLeft") {
                 if (menu === 0) {
@@ -191,7 +191,7 @@ export default function SignUp(props) {
 
     return (
         <div className="signup">
-            <p className="signup-details">Enter new account info and new character name</p>
+            <p className="signup-details">Enter existing account info and new character name</p>
             <div className="signup-form">
                 <div className="signup-field">
                     <label htmlFor="email">email</label>
@@ -257,10 +257,10 @@ export default function SignUp(props) {
                 </div>
             </div>
         </div>
-    );
-}
+    )
+};
 
-SignUp.propTypes = {
+ExistingAcct.propTypes = {
     focus: PropTypes.any,
     startGame: PropTypes.func,
     goBack: PropTypes.func,

@@ -1,13 +1,19 @@
 .signup {
-    grid-area: 2 / 1 / 5 / 6;
+    grid-area: 1 / 1 / 5 / 6;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     gap: 0px 0px;
 }
 
+.signup-details {
+    text-align: center;
+    font-weight: 500;
+    grid-area: 1 / 1 / 2 / 6;
+}
+
 .signup-form {
-    grid-area: 1 / 1 / 4 / 6;
+    grid-area: 2 / 1 / 4 / 6;
     display: flex;
     flex-direction: column;
     justify-content: center;

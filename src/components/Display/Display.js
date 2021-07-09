@@ -86,7 +86,9 @@ export default function Display(props) {
                     timeout={1500}
                     classNames="main"
                 >
-                    <Game focus={props.focus} changeHint={(newHint) => setHint(newHint)} />
+                    <Game focus={props.focus}
+                          changeHint={(newHint) => setHint(newHint)}
+                          logout={() => setShowing("logo")}/>
                 </CSSTransition>
             )
         }

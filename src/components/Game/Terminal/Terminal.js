@@ -66,7 +66,7 @@ export default function Terminal(props) {
             inputMove(evt)
         } else if (evt.key === "Enter") {
             selection()
-        } else if (evt.code === "Space") {
+        } else if (evt.code === "Space" || evt.code === "Escape") {
             console.log("Fired by terminal")
             props.changeFocus(evt);
         } else {

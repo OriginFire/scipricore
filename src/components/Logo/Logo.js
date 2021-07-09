@@ -13,6 +13,7 @@ export default function Logo(props) {
     const [playMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
     const [playError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
     const [menu, setMenu] = useState(0);
+
     useEffect(() => {
         props.focus.current.focus();
     })

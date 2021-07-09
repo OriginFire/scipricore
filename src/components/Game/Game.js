@@ -1,5 +1,6 @@
 import "./Game.css";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
+import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
 import select from "../../audio/interface/menuSelect.mp3";
 import move from "../../audio/interface/menuMove.mp3";
@@ -10,6 +11,7 @@ import * as PropTypes from "prop-types";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 export default function Game(props) {
+    const {launch, legacy, updateAudio} = useContext(AudioContext);
     const [playMenuSelect] = useSound(select, {playbackRate: 0.7, volume: 0.1})
     const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.05});
     const [playSysLink] = useSound(toggle, {playbackRate: 1.1, volume: 0.25});
@@ -32,6 +34,17 @@ export default function Game(props) {
                 setActive("terminal");
                 playTerminal();
             }
+        } else if (evt.code === "Escape") {
+            console.log("ESCAPE!");
+            let intervalId = setInterval(() => {
+                updateAudio("legacy", {...legacy, volume: --legacy.volume})
+                if (legacy.volume === 0) {
+                    clearInterval(intervalId);
+                    legacy.status = "STOPPED"
+                    updateAudio("legacy", {...legacy});
+                }
+            }, 150)
+            props.logout()
         }
     }
 

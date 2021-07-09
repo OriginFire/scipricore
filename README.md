@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# [The Scipricore Agenda](https://trotr-client.herokuapp.com/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+[comment]: <> ( ![version]&#40;https://img.shields.io/badge/version-1.9.0-blue.svg&#41;  [![GitHub issues open]&#40;https://img.shields.io/github/issues/creativetimofficial/ct-material-kit-pro-react.svg?maxAge=2592000&#41;]&#40;https://github.com/creativetimofficial/ct-material-kit-pro-react/issues?q=is%3Aopen+is%3Aissue&#41; [![GitHub issues closed]&#40;https://img.shields.io/github/issues-closed-raw/creativetimofficial/ct-material-kit-pro-react.svg?maxAge=2592000&#41;]&#40;https://github.com/creativetimofficial/ct-material-kit-pro-react/issues?q=is%3Aissue+is%3Aclosed&#41; [![Join the chat at https://gitter.im/NIT-dgp/General]&#40;https://badges.gitter.im/NIT-dgp/General.svg&#41;]&#40;https://gitter.im/creative-tim-general/Lobby&#41; [![Chat]&#40;https://img.shields.io/badge/chat-on%20discord-7289da.svg&#41;]&#40;https://discord.gg/E4aHAQy&#41;)
 
-In the project directory, you can run:
+![Product Presentation Image](./public/Landing.png)
 
-### `yarn start`
+**[The Scipricore Agenda](https://scipricore.herokuapp.com/)** is a text-based sci-fi adventure.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Its feature-set includes basic email/password authentication supported by Firebase then largely
+revolves around heavily stylized effects that utilize a mix of React hooks and event listeners. 
+Several game interface components expand on basic HTML page-building to support typewriter effects
+and gameplay dialogue interactions. As gameplay is keyboard driven with no mouse / click listeners,
+much of the component hierarchy depends on use of refs to focus on specific HTML elements.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
+## Table of Contents
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+* [Technologies](#technologies)
+* [Quick Start](#quick-start)
+* [Browser Support](#browser-support)
+* [Licensing](#licensing)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Technologies
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [HTML]()
+- [React](https://demos.creative-tim.com/material-kit-pro-react/#/components#buttons)
+- [Node](https://demos.creative-tim.com/material-kit-pro-react/#/components#navigation)
+- [Express](https://demos.creative-tim.com/material-kit-pro-react/#/components#notifications)
+- [MongoDB](https://demos.creative-tim.com/material-kit-pro-react/#/profile-page)
+- [Mongoose](https://demos.creative-tim.com/material-kit-pro-react/#/landing-page)
+- [React-Sound](https://www.npmjs.com/package/react-sound)
+- [Use Sound](https://www.npmjs.com/package/use-sound)
+- [Heroku](https://heroku.com)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Quick start
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Visit the [Scipricore Agenda](https://trotr-client.herokuapp.com/) website, create an account and a new character, and jump into the game!
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Browser Support
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Recommended browsers for using this app:
 
-### Code Splitting
+<img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Licensing
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Copyright 2021 Cubby Alexander

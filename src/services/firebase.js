@@ -15,9 +15,10 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const provider = new firebase.auth.EmailAuthProvider();
 
-async function signup(email, password) {
+export async function signup(email, password) {
     try {
     const newUser = await auth.createUserWithEmailAndPassword(email, password);
+    console.log(newUser);
     return newUser;
     }
     catch (e) {
@@ -25,12 +26,18 @@ async function signup(email, password) {
     }
 }
 
-function signin() {
-    auth.Auth.signInWithEmailAndPassword()
+export async function signin(email, password) {
+    try {
+        const user = auth.signInWithEmailAndPassword(email, password);
+        return user;
+    }
+    catch (e) {
+        console.log(e);
+    }
 }
 
 function logout() {
 
 }
 
-export default signup;
+export default {signup, signin};

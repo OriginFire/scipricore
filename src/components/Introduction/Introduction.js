@@ -8,10 +8,11 @@ import useSound from "use-sound";
 import select from "../../audio/interface/menuSelect.mp3";
 import move from "../../audio/interface/menuMove.mp3";
 import error from "../../audio/interface/menuError.mp3";
+import ExistingAcct from "./ExistingAcct";
 
 export default function Introduction(props) {
     const [intro, setIntro] = useState(1);
-    const [existing, setExisting] = useState(true);
+    const [existing, setExisting] = useState(false);
     const {launch, legacy, updateAudio} = useContext(AudioContext);
     const [playMenuError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
     const [playMenuMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
@@ -52,7 +53,7 @@ export default function Introduction(props) {
             </p>
             <p>One such renegade finds themself newly adrift, fleeing the consequences of their failure...</p>
             <br />
-            <p style={{"text-align": "center", "font-weight": "500"}}>Start character on a new account or an existing one?</p>
+            <p style={{"textAlign": "center", "fontWeight": "500"}}>Start character on a new account or an existing one?</p>
         </div>,
 
         4:
@@ -89,7 +90,7 @@ export default function Introduction(props) {
 
         4: <SignUp focus={props.focus} startGame={props.initiate} goBack={() => setIntro(3)} />,
 
-        5: <div></div>
+        5: <ExistingAcct focus={props.focus} startGame={props.initiate} goBack={() => setIntro(3)} />
     }
 
     const input = (evt) => {
