@@ -6,10 +6,15 @@ import "./Introduction.css";
 import {ArrowForwardIos} from "@material-ui/icons";
 import useSound from "use-sound";
 import select from "../../audio/interface/menuSelect.mp3";
+import move from "../../audio/interface/menuMove.mp3";
+import error from "../../audio/interface/menuError.mp3";
 
 export default function Introduction(props) {
     const [intro, setIntro] = useState(1);
+    const [existing, setExisting] = useState(true);
     const {launch, legacy, updateAudio} = useContext(AudioContext);
+    const [playMenuError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
+    const [playMenuMove] = useSound(move, {playbackRate: 0.25, volume: 0.3});
     const [playMenuSelect] = useSound(select, {playbackRate: 0.7, volume: 0.1})
 
     useEffect(() => {
@@ -31,7 +36,7 @@ export default function Introduction(props) {
         2: <div className="text">
             <p>Meanwhile, recent advances in starship drive engines are opening up more distant
                 reaches of the galaxy. But of the six majors, only one - Scipricore - holds the key technology. As Scipricore's aggressive colonization program
-                enters its tenth year, the other majors' efforts to access warp technology are growing increasingly desperate.</p>
+                enters its tenth year, the other majors' efforts to access warp technology grow increasingly desperate.</p>
             <p>Against these remarkable events, a more insidious shift is taking place. Unknown
                 to most, a breed of highly intelligent humans has begun to emerge amidst the
                 fledgling galactic society.</p>
@@ -39,8 +44,21 @@ export default function Introduction(props) {
                 citadels of power are just waking up to their presence...</p>
         </div>,
 
-        3:
+        3: <div className="text">
+            <p>In this time of fragile peace, few attempt to survive without the protection of larger
+                entities, be they majors or some other affiliation. The lone drifters make for easy prey,
+                but those who manage to survive find themselves moving between the cracks in the powers of
+                the solar system.
+            </p>
+            <p>One such renegade finds themself newly adrift, fleeing the consequences of their failure...</p>
+            <br />
+            <p style={{"text-align": "center", "font-weight": "500"}}>Start character on a new account or an existing one?</p>
+        </div>,
+
+        4:
             <div></div>,
+
+        5: <div></div>,
     }
 
     let button = {
@@ -58,11 +76,38 @@ export default function Introduction(props) {
             </p>
         </div>,
 
-        3: <SignUp focus={props.focus} startGame={props.initiate} />
+        3: <div className="intro-link" ref={props.focus} onKeyDown={(e) => input(e)} tabIndex={0}>
+            <p>
+                {!existing && <ArrowForwardIos className="introarrow" fontSize="inherit"/>}
+                <code className={!existing ? "blue" : ""}>Start New Account</code>
+            </p>
+            <p>
+                {existing && <ArrowForwardIos className="introarrow" fontSize="inherit"/>}
+                <code className={existing ? "blue" : ""}>Use Existing Account</code>
+            </p>
+        </div>,
+
+        4: <SignUp focus={props.focus} startGame={props.initiate} goBack={() => setIntro(3)} />,
+
+        5: <div></div>
+    }
+
+    const input = (evt) => {
+        let directionKeys = ["Tab", "ArrowLeft", "ArrowRight"];
+        if (directionKeys.includes(evt.key)) {
+            if (evt.key === "Tab"  || evt.key === "ArrowRight" || "ArrowLeft") {
+                setExisting(!existing);
+                playMenuMove();
+            }
+        } else if (evt.key === "Enter") {
+            progressAction(evt);
+        } else {
+            playMenuError();
+        }
     }
 
     const progressAction = (evt) => {
-        if (intro === 2) {
+        if (intro === 3) {
             let intervalId = setInterval(() => {
                 updateAudio("launch", {...launch, volume: --launch.volume})
                 if (launch.volume === 0) {
@@ -74,7 +119,15 @@ export default function Introduction(props) {
         }
         if (evt.code === "Enter") {
             playMenuSelect();
-            setIntro(prevState => (prevState + 1));
+            if (intro === 3) {
+                if (existing) {
+                    setIntro(5);
+                } else {
+                    setIntro(4)
+                }
+            } else {
+                setIntro(prevState => (prevState + 1));
+            }
         }
     }
 

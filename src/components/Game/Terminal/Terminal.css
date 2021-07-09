@@ -1,8 +1,8 @@
 .terminal {
-    grid-area: 1 / 1 / 13 / 7;
+    grid-area: 2 / 1 / 13 / 7;
     font-family: Inconsolata, serif;
     text-align: left;
-    font-size: 16px;
+    font-size: 18px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -33,12 +33,18 @@
     color: #22e522;
 }
 
+.network {
+    color: yellow;
+}
+
 .info {
     color: deepskyblue;
 }
 
 .newcommand {
     color: #667171;
+    height: 3vw;
+    max-height: 18px;
 }
 
 .caret {
@@ -60,16 +66,30 @@
     }
 }
 
-.newcommand .caret {
-    animation: blink 780ms steps(5, start) infinite;
-}
-
 .command-line {
     outline: none;
     margin: 0 12.5%;
     width: 75%;
     grid-area: 6 / 1 / 8 / 4;
     color: #667171;
+}
+
+.option-list-enter {
+    opacity: 0.01;
+}
+
+.option-list-enter.option-list-enter-active {
+    opacity: 1;
+    transition: opacity 3000ms ease-in;
+}
+
+.option-list-exit {
+    opacity: 1;
+}
+
+.option-list-exit.option-list-exit-active {
+    opacity: 0.01;
+    transition: opacity 3000ms ease-in;
 }
 
 .option {
@@ -82,6 +102,8 @@
 
 .command-arrow {
     position: absolute;
-    left: -2vmin;
+    left: calc(-12px - 0.5vmin);
+    top: 1px;
     color: #61dafb;
+    animation: blink 1200ms steps(5, start) infinite;
 }

@@ -8,6 +8,7 @@ export default function UnorderedList (props) {
     const updateList = (updateItem) => {
         let update = [...printFeed];
         update[updateItem].printed = true;
+        setPrintFeed(update);
         setActiveFeed(prevState => prevState + 1);
         if (update[update.length - 1].printed === true) {
             props.printed();

@@ -6,20 +6,22 @@ import error from "../../../audio/interface/menuError.mp3";
 import move from "../../../audio/interface/menuMove.mp3";
 import select from "../../../audio/interface/menuSelect.mp3";
 import {ArrowForwardIos} from "@material-ui/icons";
-import PrintoutBuilder from "./PrintoutBuilder";
+import PrintoutBuilder from "./PrintoutBuilder/PrintoutBuilder";
+import syslink from "./PrintoutBuilder/DefaultPrintouts/syslink";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 const start = [
     {
         element: "paragraph",
         class: "success",
         content: "Stable power source detected",
-        printed: true,
+        printed: false,
     },
     {
         element: "paragraph",
         class: "success",
         content: "Startup sequence initializing...",
-        printed: true,
+        printed: false,
     },
     {
         element: "paragraph",
@@ -45,6 +47,7 @@ const start = [
 ];
 
 export default function Terminal(props) {
+    const [initialFeed, setInitialFeed] = useState(false);
     const [feed, setFeed] = useState(start);
     const [active, setActive] = useState(0);
     const [playMenuError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
@@ -52,17 +55,19 @@ export default function Terminal(props) {
     const [playMenuSelect] = useSound(select, {playbackRate: 0.7, volume: 0.1})
 
     useEffect(() => {
-        props.focus.current.focus();
-    }, [props.focus]);
+        if (props.active === "terminal") {
+            props.focus.current.focus();
+        }
+    }, [props.focus, props.active]);
 
     const keyboardInput = (evt) => {
-        if (active === "viewscreen") return;
         let directionKeys = ["Tab", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
         if (directionKeys.includes(evt.key)) {
             inputMove(evt)
         } else if (evt.key === "Enter") {
             selection()
         } else if (evt.code === "Space") {
+            console.log("Fired by terminal")
             props.changeFocus(evt);
         } else {
             playMenuError();
@@ -71,7 +76,36 @@ export default function Terminal(props) {
 
     const selection = () => {
         if (active === 0) {
-            props.viewscreenAction("connect");
+            setFeed(prevState => [...prevState, {
+                element: "syslink",
+                content: [
+                    {
+                        content: "Attempting SysLink network connection...",
+                        printed: false,
+                        class: "",
+                        delay: 1000,
+                    },
+                    {
+                        content: "Satellite uplink found to:  Jupiter Vega-IV Relay",
+                        printed: false,
+                        class: "",
+                        delay: 100,
+                    },
+                    {
+                        content: "Signal strength........good",
+                        printed: false,
+                        class: "",
+                        delay: 100,
+                    },
+                    {
+                        content: "SysLink network connection established",
+                        printed: false,
+                        class: "success",
+                        delay: 100,
+                    },
+                ],
+                printed: false,
+            }]);
             playMenuSelect();
         }
         if (active === 1) {
@@ -118,31 +152,49 @@ export default function Terminal(props) {
         }
     }
 
-    return <div className="terminal">
-        <PrintoutBuilder printFeed={feed} allCurrent={(currentStatus) => setFeed(currentStatus)} />
-
-        <div
-            className="command-line"
-            ref={props.active === "terminal" ? props.focus : null}
-            onKeyDown={keyboardInput}
-            tabIndex={0}
-        >
-            GENERAL
-            <div className="option">
-                {active === 0 && <ArrowForwardIos className="command-arrow" fontSize="inherit"/>}
-                Connect to SysLink
-            </div>
-            <div className="option">
-                {active === 1 && <ArrowForwardIos className="command-arrow" fontSize="inherit"/>}
-                Review machine activity
+    return (
+        <div className="terminal">
+            <PrintoutBuilder
+                active={props.active}
+                printFeed={feed}
+                allCurrent={(currentStatus) => {
+                    setInitialFeed(true);
+                    setFeed(currentStatus);
+                }}
+                syslinkAction={(action) => props.syslinkAction(action)}
+            />
+            <div
+                className="command-line"
+                ref={props.active === "terminal" ? props.focus : null}
+                onKeyDown={keyboardInput}
+                tabIndex={0}
+            >
+                <CSSTransition
+                    in={initialFeed}
+                    classNames="option-list"
+                    timeout={3000}
+                    unmountOnExit
+                >
+                    <div className="options">
+                        GENERAL
+                        <div className="option">
+                            {props.active === "terminal" && active === 0 && <ArrowForwardIos className="command-arrow" fontSize="inherit"/>}
+                            Connect to SysLink
+                        </div>
+                        <div className="option">
+                            {props.active === "terminal" && active === 1 && <ArrowForwardIos className="command-arrow" fontSize="inherit"/>}
+                            Review machine activity
+                        </div>
+                    </div>
+                </CSSTransition>
             </div>
         </div>
-
-    </div>;
+    )
 }
 
 Terminal.propTypes = {
     focus: PropTypes.any,
-    viewscreenAction: PropTypes.func,
-    onKeyDown: PropTypes.func
+    active: PropTypes.string,
+    syslinkAction: PropTypes.func,
+    changeFocus: PropTypes.func
 };

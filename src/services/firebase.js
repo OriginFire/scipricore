@@ -18,7 +18,7 @@ const provider = new firebase.auth.EmailAuthProvider();
 async function signup(email, password) {
     try {
     const newUser = await auth.createUserWithEmailAndPassword(email, password);
-    console.log("New User created!", newUser);
+    return newUser;
     }
     catch (e) {
         console.log(e)

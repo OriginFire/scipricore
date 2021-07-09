@@ -5,7 +5,7 @@ import select from "../../audio/interface/menuSelect.mp3";
 import move from "../../audio/interface/menuMove.mp3";
 import toggle from "../../audio/interface/gameUItoggle.mp3";
 import Terminal from "./Terminal/Terminal";
-import Viewscreen from "./Viewscreen/Viewscreen";
+import SysLink from "./SysLink/SysLink";
 import * as PropTypes from "prop-types";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
@@ -26,7 +26,7 @@ export default function Game(props) {
         console.log(evt.code);
         if (evt.code === "Space") {
             if (active === "terminal") {
-                setActive("viewscreen")
+                setActive("syslink")
                 playSysLink();
         } else {
                 setActive("terminal");
@@ -37,7 +37,12 @@ export default function Game(props) {
 
     const actionResolution = (action) => {
         if (action === "connect") {
+            setActive("syslink");
             setConnection(true);
+            props.changeHint(1);
+            setTimeout(() => {
+                playSysLink();
+            }, 1000)
         }
     }
 
@@ -50,17 +55,17 @@ export default function Game(props) {
             <Terminal
                 active={active}
                 focus={props.focus}
-                viewscreenAction={actionResolution}
+                syslinkAction={actionResolution}
                 changeFocus={controller} />
         </CSSTransition>);
 
-    const viewscreen = (
+    const syslink = (
         <CSSTransition
-            key="viewscreen"
+            key="syslink"
             classNames="main"
             timeout={1500}
         >
-            <Viewscreen
+            <SysLink
                 active={active}
                 connection={connection}
                 focus={props.focus}
@@ -70,7 +75,7 @@ export default function Game(props) {
     return (
         <TransitionGroup className="game-interface">
             {showing && terminal}
-            {showing && viewscreen}
+            {showing && syslink}
         </TransitionGroup>
     )
 }

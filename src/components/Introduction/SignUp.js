@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
+import axios from "axios";
 import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
 import "./Signup.css";
@@ -28,9 +29,23 @@ export default function SignUp(props) {
         props.focus.current.focus();
     }, [props.focus]);
 
-    const accountCreation = () => {
-        const newAccount = signup(email, secretPassword);
-        console.log(newAccount);
+    const accountCreation = async () => {
+        try {
+            const newUser = await signup(email, secretPassword);
+            console.log(newUser);
+            let axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json;char=UTF-8',
+                    "Access-Control-Allow-Origin": "*",
+                }
+            };
+            const auth = { authId: newUser.user.uid };
+            axios.post('http://localhost:4000/user', auth, axiosConfig);
+            // initiateNewGame()
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     const initiateNewGame = () => {
@@ -68,8 +83,7 @@ export default function SignUp(props) {
                 if (menu === 0) {
                     if (direction === "Enter") {
                         playMenuSelect();
-                        // accountCreation();
-                        initiateNewGame();
+                        accountCreation();
                     } else if (direction === "Tab") {
                         playMenuMove();
                         setMenu(prevState => prevState + 1);
@@ -78,7 +92,12 @@ export default function SignUp(props) {
                     }
                 }
                 if (menu === 1) {
-                    playMenuSelect();
+                    if (direction === "Enter") {
+                        playMenuSelect();
+                        props.goBack();
+                    } else {
+                        playMenuError();
+                    }
                 }
             }
         }

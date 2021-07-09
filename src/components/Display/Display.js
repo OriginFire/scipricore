@@ -9,13 +9,24 @@ import {
     KeyboardArrowLeft,
     KeyboardArrowRight,
     KeyboardArrowUp,
-    KeyboardReturn
+    KeyboardReturn,
+    SpaceBar
 } from "@material-ui/icons";
+
+const hints = [
+    <p className="selectors">Use keys <KeyboardArrowRight className="key"/> <KeyboardArrowLeft className="key"/>
+        <KeyboardArrowDown className="key"/> <KeyboardArrowUp className="key"/> and <KeyboardReturn
+            className="key" id="enter"/> to navigate
+    </p>,
+    <p className="selectors">Use the <SpaceBar className="key"/> key to switch between the Terminal and SysLink
+    </p>
+]
 
 export default function Display(props) {
     const [showing, setShowing] = useState("logo");
+    const [hint, setHint] = useState(0);
 
-    const headerDisplay = (showing === "game") ? (
+    const headerDisplay = (showing === "logo") ? (
         <CSSTransition
             key="gameheader"
             classNames="gamefont gameposition"
@@ -75,7 +86,7 @@ export default function Display(props) {
                     timeout={1500}
                     classNames="main"
                 >
-                    <Game focus={props.focus} />
+                    <Game focus={props.focus} changeHint={(newHint) => setHint(newHint)} />
                 </CSSTransition>
             )
         }
@@ -91,10 +102,7 @@ export default function Display(props) {
                 {mainContent()}
             </TransitionGroup>
 
-            <p className="selectors">Use keys <KeyboardArrowRight className="key"/> <KeyboardArrowLeft className="key"/>
-                <KeyboardArrowDown className="key"/> <KeyboardArrowUp className="key"/> and <KeyboardReturn
-                    className="key" id="enter"/> to navigate
-            </p>
+            {hints[hint]}
         </>
     )
 }
