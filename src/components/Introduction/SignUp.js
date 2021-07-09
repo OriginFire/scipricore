@@ -41,7 +41,7 @@ export default function SignUp(props) {
             };
             const auth = { authId: newUser.user.uid };
             axios.post('http://localhost:4000/user', auth, axiosConfig);
-            // initiateNewGame()
+            initiateNewGame()
         }
         catch (error) {
             console.log(error);
