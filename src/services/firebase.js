@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const provider = new firebase.auth.EmailAuthProvider();
 
-export async function signup(email, password) {
+async function signup(email, password) {
     try {
     const newUser = await auth.createUserWithEmailAndPassword(email, password);
     console.log(newUser);
@@ -26,9 +26,10 @@ export async function signup(email, password) {
     }
 }
 
-export async function signin(email, password) {
+async function signin(email, password) {
     try {
-        const user = auth.signInWithEmailAndPassword(email, password);
+        const user = await auth.signInWithEmailAndPassword(email, password);
+        console.log(user)
         return user;
     }
     catch (e) {
@@ -36,8 +37,20 @@ export async function signin(email, password) {
     }
 }
 
-function logout() {
-
+async function deleteUser(email, password) {
+    try {
+        const deletedUser = await auth.signInWithEmailAndPassword(email, password);
+        const user = auth.currentUser;
+        user.delete().then(deletedUser => console.log(deletedUser))
+        return deletedUser;
+    }
+    catch (e) {
+        console.log(e);
+    }
 }
 
-export default {signup, signin};
+function logout() {
+    return auth.signOut();
+}
+
+export {auth, signup, signin, logout, deleteUser};

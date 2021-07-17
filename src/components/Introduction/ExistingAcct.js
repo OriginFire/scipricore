@@ -31,7 +31,6 @@ export default function ExistingAcct(props) {
 
     const characterCreation = async () => {
         try {
-            console.log(email, secretPassword);
             const user = await signin(email, secretPassword);
             let axiosConfig = {
                 headers: {
@@ -41,17 +40,16 @@ export default function ExistingAcct(props) {
             };
             const newChar = { character: {alias} };
             axios.put(`https://scipricore-backend.herokuapp.com/user/${user.user.uid}`, newChar, axiosConfig)
-                .then(res => console.log(res))
+                .then(res => initiateNewGame(newChar.character))
                 .catch(err => console.log(err));
-            initiateNewGame();
         }
         catch (e) {
             console.log(e);
         }
     }
 
-    const initiateNewGame = () => {
-        props.startGame();
+    const initiateNewGame = (character) => {
+        props.startGame(character);
         let intervalId = setInterval(() => {
             if (legacy.status === "STOPPED") {
                 legacy.status = "PLAYING";

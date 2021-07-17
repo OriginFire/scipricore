@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useContext} from "react";
 import AudioContext from "../../AudioContext";
-import Sound from "react-sound";
 import Orbital from "../Orbital/Orbital";
 import {ArrowForwardIos} from "@material-ui/icons";
 import "./Logo.css";
@@ -16,17 +15,28 @@ export default function Logo(props) {
 
     useEffect(() => {
         props.focus.current.focus();
-    })
+    }, [])
 
     const moveSelector = (evt) => {
-        if ((evt.code === "ArrowRight" && menu === 1) || (evt.code === "ArrowLeft" && menu === 0) || (evt.code === "ArrowUp") || (evt.code === "ArrowDown")) {
+        if ((evt.code === "ArrowRight" && menu === 2) || (evt.code === "ArrowLeft" && menu === 0) || (evt.code === "ArrowUp") || (evt.code === "ArrowDown")) {
             playError();
         } else if (evt.code === "Enter") {
-            if (menu === 0) {
-                launch.status = "PLAYING";
-                updateAudio("launch", {...launch,})
-                props.newGame();
-            } else { console.log("Resume Game")}
+            switch (menu) {
+                case 0:
+                    launch.status = "PLAYING";
+                    launch.volume = launch.gameplayMax;
+                    updateAudio("launch", {...launch,})
+                    props.newGame();
+                    break;
+                case 1:
+                    props.resumeGame();
+                    break;
+                case 2:
+                    props.deleteAccount();
+                    break;
+                default:
+                    break;
+            }
         } else {
             if (evt.code === "ArrowRight") {
                 setMenu(prevState => (prevState + 1));
@@ -60,6 +70,13 @@ export default function Logo(props) {
                     <p>
                         {menu === 1 && <ArrowForwardIos className="arrow" fontSize="inherit"/>}
                         <code className={menu === 1 ? "blue" : ""}>Resume Game</code>
+                    </p>
+                </div>
+
+                <div className="link">
+                    <p>
+                        {menu === 2 && <ArrowForwardIos className="arrow" fontSize="inherit"/>}
+                        <code className={menu === 2 ? "blue" : ""}>Delete Account</code>
                     </p>
                 </div>
             </div>

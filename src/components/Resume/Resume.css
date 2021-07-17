@@ -1,0 +1,77 @@
+.resume {
+    font-family: "Exo 2", sans-serif;
+    font-weight: 300;
+    text-align: left;
+    height: 100%;
+    width: 100%;
+    font-size: calc(3px + 2.3vmin);
+    line-height: 3.3vmin;
+    color: #a08f8f;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+}
+
+@media screen and (min-width: 1200px) {
+    .resume {
+        font-size: 24px;
+    }
+}
+
+.text {
+    grid-area: 1 / 1 / 5 / 6;
+}
+
+.resume-selection {
+    grid-area: 2 / 1 / 5 / 6;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+}
+
+.resume-link {
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.resume-link p {
+    position: relative;
+    width: 60%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 25px;
+}
+
+.resumearrow {
+    color: white;
+    position: absolute;
+    left: calc(10px - 1.5vmin);
+}
+
+.gamestatus {
+    font-size: 18px;
+    margin: 0 0 0 10%;
+}
+
+.main-enter {
+    opacity: 0.01;
+}
+
+.main-enter.main-enter-active {
+    opacity: 1;
+    transition: opacity 1500ms ease-in;
+}
+
+.main-exit {
+    opacity: 1;
+}
+
+.main-exit.main-exit-active {
+    opacity: 0.01;
+    transition: opacity 1500ms ease-in;
+}

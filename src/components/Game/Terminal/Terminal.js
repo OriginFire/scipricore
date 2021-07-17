@@ -10,45 +10,9 @@ import PrintoutBuilder from "./PrintoutBuilder/PrintoutBuilder";
 import syslink from "./PrintoutBuilder/DefaultPrintouts/syslink";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
-const start = [
-    {
-        element: "paragraph",
-        class: "success",
-        content: "Stable power source detected",
-        printed: false,
-    },
-    {
-        element: "paragraph",
-        class: "success",
-        content: "Startup sequence initializing...",
-        printed: false,
-    },
-    {
-        element: "paragraph",
-        class: "",
-        content: "Machine configuration for Ulysses (admin-user)...",
-        printed: false,
-    },
-    {
-        element: "paragraph",
-        class: "",
-        content: "One processor core detected -- Nikko Nebula-5:",
-        printed: false,
-    },
-    {
-        element: "unordered-list",
-        content: [
-            {itemContent: "No active processes", printed: false},
-            {itemContent: "No active network connections", printed: false},
-            {itemContent: "Memory pressure... 20GB used, 80GB free", printed: false},
-        ],
-        printed: false,
-    },
-];
-
 export default function Terminal(props) {
     const [initialFeed, setInitialFeed] = useState(false);
-    const [feed, setFeed] = useState(start);
+    const [feed, setFeed] = useState(props.start);
     const [active, setActive] = useState(0);
     const [playMenuError] = useSound(error, {playbackRate: 1.1, volume: 0.4});
     const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.3});
@@ -111,6 +75,12 @@ export default function Terminal(props) {
         if (active === 1) {
             playMenuSelect();
             setFeed(prevState => [...prevState,
+                {
+                    element: "paragraph",
+                    class: "",
+                    content: `Machine configuration for ${props.character.alias} (admin-user)...`,
+                    printed: false,
+                },
                 {
                     element: "paragraph",
                     class: "",
@@ -196,5 +166,6 @@ Terminal.propTypes = {
     focus: PropTypes.any,
     active: PropTypes.string,
     syslinkAction: PropTypes.func,
-    changeFocus: PropTypes.func
+    changeFocus: PropTypes.func,
+    character: PropTypes.object
 };

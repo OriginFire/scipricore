@@ -2,15 +2,15 @@ import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import AudioContext from "../../AudioContext";
 import useSound from "use-sound";
-import "./Signup.css";
-import {signup} from "../../services/firebase";
+import "./AccountDelete.css";
+import {deleteUser} from "../../services/firebase";
 import move from "../../audio/interface/menuMove.mp3";
 import error from "../../audio/interface/menuError.mp3";
 import select from "../../audio/interface/menuSelect.mp3";
 import * as PropTypes from "prop-types";
 import {ArrowForwardIos} from "@material-ui/icons";
 
-export default function SignUp(props) {
+export default function AccountDelete(props) {
     const {launch, legacy, updateAudio} = useContext(AudioContext);
     const [playMenuSelect] = useSound(select, {playbackRate: .7, volume: 0.1});
     const [playFormMove] = useSound(move, {playbackRate: 1, volume: 0.05});
@@ -29,29 +29,27 @@ export default function SignUp(props) {
         props.focus.current.focus();
     }, [props.focus]);
 
-    const accountCreation = async () => {
+    const accountSignIn = async () => {
         try {
-            const newUser = await signup(email, secretPassword);
+            const user = await deleteUser(email, secretPassword);
             let axiosConfig = {
                 headers: {
                     'Content-Type': 'application/json;char=UTF-8',
                     "Access-Control-Allow-Origin": "*",
                 }
             };
-            console.log(newUser);
-            const auth = { authId: newUser.user.uid, characters: [{alias}] };
-            axios.post('https://scipricore-backend.herokuapp.com/user', auth, axiosConfig)
+            axios.delete(`https://scipricore-backend.herokuapp.com/user/${user.user.uid}`, axiosConfig)
                 .then(res => console.log(res))
                 .catch(err => console.log(err));
-            initiateNewGame({alias});
+            props.goBack();
         }
         catch (error) {
             console.log(error);
         }
     }
 
-    const initiateNewGame = (character) => {
-        props.startGame(character);
+    const initiateNewGame = () => {
+        props.startGame();
         let intervalId = setInterval(() => {
             if (legacy.status === "STOPPED") {
                 legacy.status = "PLAYING";
@@ -73,8 +71,8 @@ export default function SignUp(props) {
         let decrement = ["ArrowUp"];
         let lateral = ["ArrowRight", "ArrowLeft"];
         if (increment.includes(direction)) {  // If Tab, Enter, or ArrowDown hit
-            if (focus !== 3) {                // ...and signup links are not focused
-                if (focus === 2) {
+            if (focus !== 2) {                // ...and signup links are not focused
+                if (focus === 1) {
                     playMenuMove();
                     setMenu(0);
                 } else {
@@ -85,7 +83,7 @@ export default function SignUp(props) {
                 if (menu === 0) {
                     if (direction === "Enter") {
                         playMenuSelect();
-                        accountCreation();
+                        accountSignIn();
                     } else if (direction === "Tab") {
                         playMenuMove();
                         setMenu(prevState => prevState + 1);
@@ -106,11 +104,11 @@ export default function SignUp(props) {
         if (decrement.includes(direction) && focus !== 0) {  // If ArrowUp hit
             playFormMove();
             setFocus(prevState => (prevState - 1));
-            if (focus === 3) {
+            if (focus === 2) {
                 setMenu(null);
             }
         }
-        if (lateral.includes(direction) && focus === 3) {   // If ArrowLeft or ArrowRight hit
+        if (lateral.includes(direction) && focus === 2) {   // If ArrowLeft or ArrowRight hit
             if (direction === "ArrowRight") {
                  if (menu === 1) {
                     playMenuError();
@@ -191,7 +189,6 @@ export default function SignUp(props) {
 
     return (
         <div className="signup">
-            <p className="signup-details">Enter new account info and new character name</p>
             <div className="signup-form">
                 <div className="signup-field">
                     <label htmlFor="email">email</label>
@@ -220,32 +217,18 @@ export default function SignUp(props) {
                     </div>
                     {(focus === 1) && <button id="caret">&nbsp;</button>}
                 </div>
-
-                <div className="signup-field">
-                    <label htmlFor="alias">gameplay alias</label>
-                    <div
-                        className={focus === 2 ? "active" : "noCaret"}
-                        id="alias"
-                        ref={focus === 2 ? props.focus : null}
-                        tabIndex={2}
-                        onKeyDown={encodeInput}
-                    >
-                        {alias}
-                    </div>
-                    {(focus === 2) && <button id="caret">&nbsp;</button>}
-                </div>
             </div>
 
             <div
                 className="signup-menu"
-                ref={focus=== 3 ? props.focus : null}
+                ref={focus=== 2 ? props.focus : null}
                 onKeyDown={encodeInput}
-                tabIndex={3}
+                tabIndex={2}
             >
                 <div className="selection">
                     <p>
                         {menu === 0 && <ArrowForwardIos className="signup-arrow" fontSize="inherit"/>}
-                        <code className={menu === 0 ? "blue" : ""}>Begin Game</code>
+                        <code className={menu === 0 ? "blue" : ""}>Delete Account</code>
                     </p>
                 </div>
 
@@ -260,7 +243,7 @@ export default function SignUp(props) {
     );
 }
 
-SignUp.propTypes = {
+AccountDelete.propTypes = {
     focus: PropTypes.any,
     startGame: PropTypes.func,
     goBack: PropTypes.func,

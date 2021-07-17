@@ -31,7 +31,6 @@ function App() {
         <header className="App-header">
             <AudioContext.Provider value={audio}>
                 <BackgroundMusic />
-
                 <Display focus={focusEl} />
             </AudioContext.Provider>
         </header>
